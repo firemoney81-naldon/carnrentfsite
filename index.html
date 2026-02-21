@@ -1,23 +1,523 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
+
+
+    <!-- JSON-LD Structured Data for FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "중고장기렌트가 신차 장기렌트보다 저렴한가요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "네, 맞습니다. 중고장기렌트는 이미 감가상각이 진행된 차량을 이용하기 때문에 신차 장기렌트 대비 월 렌트료가 평균 20~40% 가량 저렴합니다. 초기 비용 부담을 줄이고 싶다면 탁월한 선택입니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "중고장기렌트의 장점과 단점은 무엇인가요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "주요 장점으로는 저렴한 월 납입금, 신차 대비 빠른 출고(즉시 출고), 취등록세 및 보험료 부담 없음 등이 있습니다. 단점으로는 신차 대비 선택의 폭이 좁고, 차량 연식이나 주행거리에 따른 옵션 차이가 있을 수 있다는 점을 고려해야 합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "중고장기렌트 계약 시 확인해야 할 필수 사항은 무엇인가요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "계약 전 차량의 상세 상태(주행거리, 연식, 사고 이력), 계약 기간, 약정 주행거리, 정비 옵션(포함 또는 불포함), 중도 해지 수수료, 인수 조건 등을 꼼꼼히 확인해야 합니다. 특히 차량 상태 점검표를 요청하여 사고 유무를 확인하는 것이 중요합니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "중고장기렌트 업체 순위를 비교하는 방법이 있나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "업체 순위는 단순히 규모나 인지도가 아닌, 고객 후기, 제공하는 차량의 상태, 가격 투명성, 정비 서비스의 질을 기준으로 평가해야 합니다. 여러 중고장기렌트 전문 업체들의 견적을 비교하고, 내돈내산 후기를 참고하여 결정하는 것이 좋습니다."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #0A2B4E; /* Dark Blue */
+            --secondary-color: #4A90E2; /* Bright Blue */
+            --accent-color: #F5A623; /* Gold/Orange Accent */
+            --text-color: #333333;
+            --bg-light: #F7F9FC; /* Light Grayish Blue Background */
+            --bg-dark: #1E3A8A; /* Darker Blue Hero Background */
+            --btn-cta: #D0021B; /* Red CTA Button */
+            --section-bg-alt: #ffffff; /* Alternate section background */
+        }
+        
+        /* Font Import */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        /* Base Styles */
+        body { font-family: 'Noto Sans KR', sans-serif; margin: 0; padding: 0; background-color: var(--bg-light); color: var(--text-color); line-height: 1.7; font-size: 16px; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header & Navigation */
+        header { background-color: var(--section-bg-alt); padding: 20px 0; border-bottom: 1px solid #e0e0e0; position: sticky; top: 0; z-index: 1000; transition: all 0.3s ease; }
+        header .container { display: flex; justify-content: space-between; align-items: center; }
+        header h1 { margin: 0; font-size: 2.2em; font-weight: 900; color: var(--primary-color); }
+        header h1 a { text-decoration: none; color: inherit; }
+
+        /* Hero Section */
+        .hero { background: linear-gradient(135deg, var(--bg-dark), var(--primary-color)); color: #fff; text-align: center; padding: 100px 20px; position: relative; overflow: hidden; }
+        .hero h1 { font-size: 3.8em; margin-bottom: 20px; font-weight: 700; line-height: 1.3; }
+        .hero p { font-size: 1.5em; margin-bottom: 40px; font-weight: 300; opacity: 0.9; }
+        
+        /* CTA Button */
+        .cta-btn { background-color: var(--btn-cta); color: #fff; padding: 18px 40px; font-size: 1.4em; font-weight: bold; border: none; border-radius: 50px; cursor: pointer; transition: background-color 0.3s, transform 0.2s; box-shadow: 0 6px 15px rgba(0,0,0,0.2); text-decoration: none; display: inline-block; }
+        .cta-btn:hover { background-color: #b80017; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+
+        /* Comparison Form Box */
+        .compare-form-box { background-color: var(--section-bg-alt); padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin: 40px auto 0; max-width: 600px; }
+        .compare-form-box h2 { color: var(--primary-color); text-align: center; margin-bottom: 30px; font-size: 2em; }
+        .compare-form-box label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--primary-color); font-size: 1.1em; }
+        .compare-form-box input, .compare-form-box select { width: 100%; padding: 14px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 1em; }
+        .form-row { display: flex; gap: 20px; }
+        .form-row > div { flex: 1; }
+        .compare-form-box .cta-btn { width: 100%; }
+
+        /* Content Sections */
+        .content-section { padding: 80px 0; background-color: var(--section-bg-alt); border-bottom: 1px solid #f0f0f0; }
+        .content-section:nth-child(even) { background-color: var(--bg-light); }
+        .content-section h2 { font-size: 3em; color: var(--secondary-color); text-align: center; margin-bottom: 40px; font-weight: 700; }
+        .content-section h3 { font-size: 1.8em; color: var(--primary-color); margin-top: 40px; margin-bottom: 20px; font-weight: 600; }
+        .content-section p { font-size: 1.1em; line-height: 1.8; margin-bottom: 15px; }
+
+        /* Feature Grid */
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 40px; text-align: center; }
+        .feature-grid .item { background-color: #fff; border: 1px solid #e0e0e0; border-radius: 10px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.3s ease; }
+        .feature-grid .item:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+        .feature-grid .item img { width: 70px; height: 70px; margin-bottom: 20px; }
+        .feature-grid .item h3 { color: var(--primary-color); font-size: 1.4em; margin-top: 0; }
+
+        /* Statistics/Data Visualization */
+        .data-visual { margin: 40px 0; padding: 30px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .data-visual h3 { color: var(--primary-color); text-align: center; margin-bottom: 25px; font-size: 1.8em; }
+        .data-visual table { width: 100%; border-collapse: collapse; text-align: center; font-size: 1em; }
+        .data-visual th, .data-visual td { padding: 15px; border: 1px solid #eee; }
+        .data-visual th { background-color: var(--bg-light); color: var(--primary-color); font-weight: 700; }
+        .data-visual td.highlight { background-color: #fcebeb; font-weight: 600; color: var(--btn-cta); }
+        .data-visual ul { list-style: none; padding-left: 0; }
+        .data-visual li { background-color: #f9f9f9; padding: 10px; margin-bottom: 8px; border-left: 4px solid var(--secondary-color); font-size: 1em; }
+
+        /* FAQ Section */
+        .faq-section { background-color: #fcfcfc; }
+        .faq-item { border-bottom: 1px solid #eee; padding: 25px 0; }
+        .faq-item h3 { cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 1.2em; color: var(--primary-color); transition: color 0.3s ease; font-weight: 500; }
+        .faq-item h3:hover { color: var(--secondary-color); }
+        .faq-item h3::after { content: '+'; font-size: 1.8em; color: var(--secondary-color); transition: transform 0.3s; }
+        .faq-item.active h3::after { content: '-'; transform: rotate(180deg); }
+        .faq-item p { display: none; padding-top: 15px; color: #555; font-size: 1.05em; line-height: 1.7; }
+        .faq-item.active p { display: block; }
+        
+        /* Keyword List */
+        .keyword-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; margin-top: 30px; gap: 10px; }
+        .keyword-list li { background-color: var(--secondary-color); color: #fff; padding: 10px 20px; border-radius: 20px; font-weight: 500; font-size: 0.9em; transition: background-color 0.3s ease; }
+        .keyword-list li:hover { background-color: #3a7fd0; }
+
+        /* Footer */
+        footer { background-color: var(--primary-color); color: #fff; text-align: center; padding: 50px 20px; font-size: 0.9em; }
+        footer a { color: #fff; text-decoration: none; margin: 0 10px; opacity: 0.8; transition: opacity 0.3s ease; }
+        footer a:hover { text-decoration: underline; opacity: 1; }
+        .footer-logo { font-size: 1.5em; font-weight: bold; margin-bottom: 15px; }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5em; }
+            .hero p { font-size: 1.2em; }
+            .cta-btn { padding: 15px 30px; font-size: 1.2em; }
+            .compare-form-box { padding: 30px; margin-top: 20px; }
+            .content-section h2 { font-size: 2em; }
+            .content-section h3 { font-size: 1.5em; }
+            .form-row { flex-direction: column; gap: 0; }
+            .data-visual table, .data-visual th, .data-visual td { font-size: 0.9em; padding: 12px; }
+            .data-visual th { background-color: #f0f0f0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1><a href="/">중고장기렌트 전문</a></h1>
+            <nav>
+                <!-- Navigation links for better internal linking -->
+                <a href="#compare">견적 비교</a>
+                <a href="#pros-cons">장단점 분석</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+        </div>
+    </header>
+
     <main>
-      <h1>Home page</h1>
+        <!-- Hero Section -->
+        <section class="hero" id="top">
+            <div class="container">
+                <h1>2026년 중고장기렌트, <br>똑똑하게 견적 받고 현명하게 선택하세요!</h1>
+                <p>신차 대비 최대 40% 저렴한 비용으로 원하는 차량을 즉시 출고 받는 방법. <br>국내 모든 중고장기렌트 업체 가격을 한 번에 비교해 드립니다.</p>
+                
+                <div class="compare-form-box" id="compare">
+                    <h2>실시간 중고장기렌트 견적 비교 서비스</h2>
+                    <p>간단한 정보 입력으로 **저렴한 중고장기렌트** 상품을 찾아드립니다.</p>
+                    <form action="#" method="post">
+                        <div class="form-row">
+                            <div>
+                                <label for="car_model">희망 차량 모델 (예: G80, 쏘렌토)</label>
+                                <input type="text" id="car_model" placeholder="희망 모델을 입력하세요" required>
+                            </div>
+                            <div>
+                                <label for="budget">월 희망 예산 범위</label>
+                                <select id="budget" required>
+                                    <option value="">예산 선택</option>
+                                    <option value="under30">30만원 미만</option>
+                                    <option value="30to50">30~50만원대</option>
+                                    <option value="50to70">50~70만원대</option>
+                                    <option value="70to100">70~100만원대</option>
+                                    <option value="over100">100만원 이상</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <label for="rental_period">희망 계약 기간</label>
+                                <select id="rental_period" required>
+                                    <option value="">기간 선택</option>
+                                    <option value="12">12개월</option>
+                                    <option value="24">24개월</option>
+                                    <option value="36">36개월</option>
+                                    <option value="48">48개월</option>
+                                    <option value="60">60개월</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="name">이름</label>
+                                <input type="text" id="name" placeholder="이름을 입력하세요" required>
+                            </div>
+                        </div>
+                        <label for="phone">연락처</label>
+                        <input type="tel" id="phone" placeholder="휴대폰 번호를 입력하세요" required>
+                        <button type="submit" class="cta-btn">중고장기렌트 견적 최저가 비교하기</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Section 1: Why Choose Used Rental? -->
+        <section class="content-section" id="pros-cons">
+            <div class="container">
+                <h2>중고장기렌트카, 신차 대비 압도적인 장점 3가지</h2>
+                <p>
+                    많은 사람들이 **중고장기렌트**를 선택하는 가장 큰 이유는 바로 '가성비'입니다. 신차 구매 시 발생하는 초기 비용과 감가상각 부담 없이, **저렴한 가격**으로 원하는 차량을 이용할 수 있기 때문입니다. 특히 2026년 들어 고금리 시대가 지속되면서, 중고장기렌트카의 인기는 더욱 높아지고 있습니다.
+                </p>
+
+                <div class="feature-grid">
+                    <div class="item">
+                        <img src="https://via.placeholder.com/70/4A90E2/fff?text=COST" alt="비용 절감 아이콘">
+                        <h3>1. 압도적으로 저렴한 비용</h3>
+                        <p>신차 대비 월 렌트료가 **평균 20~40% 저렴**합니다. 이미 감가상각이 반영된 차량이기 때문에, 신차와 동일한 보장 내용으로도 월 **납입 금액**을 크게 줄일 수 있습니다. 특히 쏘나타, K5, 아반떼와 같은 인기 차종은 월 30만원대 **예상 견적**도 가능합니다.</p>
+                    </div>
+                    <div class="item">
+                        <img src="https://via.placeholder.com/70/4A90E2/fff?text=SPEED" alt="빠른 출고 아이콘">
+                        <h3>2. 즉시 출고 가능</h3>
+                        <p>신차 장기렌트는 출고까지 최소 몇 주에서 길게는 1년 이상 대기해야 하는 경우가 많습니다. 하지만 **중고장기렌트 업체**는 이미 보유한 차량을 즉시 출고해 드립니다. 급하게 차량이 필요한 분들에게 최적의 **혜택**입니다.</p>
+                    </div>
+                    <div class="item">
+                        <img src="https://via.placeholder.com/70/4A90E2/fff?text=CARE" alt="차량 관리 아이콘">
+                        <h3>3. 초기 비용 0원, 편리한 유지 관리</h3>
+                        <p>취등록세, 자동차세, 보험료 등 **초기 비용**이 일체 발생하지 않습니다. 또한 정비 옵션을 선택하면 모든 차량 정비 및 소모품 교체까지 **전문 업체**에서 관리해 주므로 편리하게 이용할 수 있습니다. 렌트 기간 종료 후 인수 또는 반납을 결정할 수 있습니다.</p>
+                    </div>
+                </div>
+
+                <h3>중고장기렌트카 vs 신차 장기렌트카 비교 분석 (2026년 기준)</h3>
+                <div class="data-visual">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>중고장기렌트카</th>
+                                <th>신차 장기렌트카</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>월 렌트료 (예상)</td>
+                                <td class="highlight">신차 대비 20~40% 저렴</td>
+                                <td>상대적으로 높음</td>
+                            </tr>
+                            <tr>
+                                <td>초기 비용 부담</td>
+                                <td class="highlight">0원 (보증금/선납금 선택 가능)</td>
+                                <td>0원 (보증금/선납금 선택 가능)</td>
+                            </tr>
+                            <tr>
+                                <td>차량 출고 기간</td>
+                                <td class="highlight">평균 1~3일 (즉시 출고)</td>
+                                <td>평균 1개월 ~ 1년 (차종에 따라 상이)</td>
+                            </tr>
+                            <tr>
+                                <td>차량 선택 폭</td>
+                                <td>보유 차량 내에서 선택 (연식, 옵션 제한)</td>
+                                <td class="highlight">신차 옵션 및 색상 자유 선택</td>
+                            </tr>
+                            <tr>
+                                <td>차량 관리 및 정비</td>
+                                <td>업체 정비 옵션 선택 시 편리</td>
+                                <td>업체 정비 옵션 선택 시 편리</td>
+                            </tr>
+                            <tr>
+                                <td>총 비용 효율성</td>
+                                <td class="highlight">단기 렌트/예산 제한 시 유리</td>
+                                <td>장기 렌트/최신 모델 선호 시 유리</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Section 2: In-depth Analysis & Popular Models -->
+        <section class="content-section" style="background-color: var(--bg-light);">
+            <div class="container">
+                <h2>중고장기렌트카, 꼼꼼하게 알아봐야 할 단점과 주의사항</h2>
+                <p>
+                    **중고장기렌트**는 많은 장점이 있지만, 신중한 선택을 위해 몇 가지 단점도 반드시 확인해야 합니다. 중고차를 렌트하는 것이기 때문에 신차와는 다른 **차이점**이 존재합니다.
+                </p>
+
+                <h3>1. 차량 옵션 및 선택의 제한</h3>
+                <p>
+                    신차 장기렌트는 원하는 옵션을 모두 선택하여 출고할 수 있지만, 중고장기렌트카는 업체가 보유한 차량 중에서 선택해야 합니다. 따라서 원하는 색상이나 세부 옵션(예: 통풍시트, 파노라마 선루프)이 없는 경우가 있을 수 있습니다. 하지만 **저렴한곳**을 찾는다면, 인기 모델의 경우 다양한 옵션 조합이 가능합니다.
+                </p>
+
+                <h3>2. 차량 연식 및 주행거리 확인 필수</h3>
+                <p>
+                    차량의 연식과 주행거리는 **중고장기렌트 가격**을 결정하는 핵심 요소입니다. 연식이 오래되었거나 주행거리가 긴 차량은 당연히 **월 납입금**이 낮지만, 추후 고장 발생 위험이 높아질 수 있습니다. **전문 업체**를 통해 렌트하기 전, 차량의 정비 이력과 사고 유무를 투명하게 확인하는 것이 중요합니다.
+                </p>
+
+                <h3>3. 약정 주행거리 초과 시 추가 비용 발생</h3>
+                <p>
+                    대부분의 **장기렌트** 계약에는 연간 약정 주행거리가 설정되어 있습니다. 중고장기렌트의 경우 신차보다 약정 주행거리가 짧게 설정되는 경우가 있으므로, 계약 전 주행거리를 꼼꼼하게 확인하고 본인의 운행 습관에 맞는 **조건**을 선택해야 합니다. 초과 시 **추가 비용**이 발생할 수 있습니다.
+                </p>
+
+                <h3>2026년 인기 중고장기렌트 모델 TOP 10 (견적 비교)</h3>
+                <p>
+                    최근 **중고장기렌트 시장**에서 높은 수요를 보이는 인기 차종들을 분석했습니다. 특히 제네시스 G80, 쏘렌토, 그랜저와 같이 신차 가격이 높은 모델일수록 **중고장기렌트의 장점**이 두드러지게 나타납니다. 아래 표는 대략적인 **평균 금액**을 나타내며, 정확한 **견적**은 개인의 조건에 따라 달라집니다.
+                </p>
+                <div class="data-visual">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>순위</th>
+                                <th>차량 모델</th>
+                                <th>연식 (예시)</th>
+                                <th>월 렌트료 예상 (평균)</th>
+                                <th>특징</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>현대 쏘렌토 (MQ4)</td>
+                                <td>2021~2023년</td>
+                                <td>40~60만원대</td>
+                                <td>SUV 베스트셀러, 가족용으로 인기, 디젤/하이브리드 선택지 다양</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>기아 K5 (DL3)</td>
+                                <td>2020~2022년</td>
+                                <td>30~40만원대</td>
+                                <td>디자인 우수, 젊은 층 선호도 높음, 저렴한 가격 대비 만족도 높음</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>현대 그랜저 (GN7)</td>
+                                <td>2023~2024년</td>
+                                <td>50~70만원대</td>
+                                <td>준대형 세단 대표, 고급스러운 실내, 신차 대기 길었던 모델</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>제네시스 G80 (RG3)</td>
+                                <td>2021~2023년</td>
+                                <td>60~90만원대</td>
+                                <td>수입차 대비 저렴한 **금액**으로 고급 세단 경험 가능</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>기아 카니발 (KA4)</td>
+                                <td>2021~2023년</td>
+                                <td>50~70만원대</td>
+                                <td>패밀리 미니밴 1순위, 넉넉한 공간 활용성, 신차 출고 대기 길었음</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>BMW 5시리즈 (G30)</td>
+                                <td>2020~2022년</td>
+                                <td>60~80만원대</td>
+                                <td>수입차 중고 렌트 인기, 합리적인 **비용**으로 럭셔리 세단 이용</td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>현대 아반떼 (CN7)</td>
+                                <td>2020~2022년</td>
+                                <td>20~30만원대</td>
+                                <td>가성비 최고, 사회 초년생 **추천** 모델, 유지비 저렴</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>현대 팰리세이드</td>
+                                <td>2020~2022년</td>
+                                <td>50~70만원대</td>
+                                <td>대형 SUV, 넓은 실내, 캠핑/레저 활동에 적합</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>기아 스포티지 (NQ5)</td>
+                                <td>2021~2023년</td>
+                                <td>35~50만원대</td>
+                                <td>가성비 SUV, 다이나믹한 디자인, **내돈내산 후기** 만족도 높음</td>
+                            </tr>
+                            <tr>
+                                <td>10</td>
+                                <td>르노 QM6 (LPG)</td>
+                                <td>2020~2022년</td>
+                                <td>30~40만원대</td>
+                                <td>LPG 차량으로 유류비 절감, 정숙성 우수, 싼곳 찾을 때 유리</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>중고장기렌트, 후회 없는 선택을 위한 5단계 가이드</h3>
+                <ol>
+                    <li><strong>1. 예산 설정 및 모델 선정:</strong> 가장 먼저 월 **예상 금액**을 정하고, 필요한 차량 크기(경차, 준중형, SUV 등)를 결정합니다.</li>
+                    <li><strong>2. 차량 상태 확인:</strong> 렌트할 차량의 연식, 주행거리, 사고 이력(무사고 여부), 옵션을 꼼꼼히 확인합니다.</li>
+                    <li><strong>3. 업체별 **견적 비교**:</strong> 여러 **중고장기렌트 업체**의 **견적**을 비교하여 가장 **저렴한곳**을 찾습니다.</li>
+                    <li><strong>4. 계약 조건 확인:</strong> 정비 옵션 유무, 약정 주행거리, 중도 해지 수수료를 반드시 확인합니다.</li>
+                    <li><strong>5. 시승 및 점검:</strong> 가능하면 실제 차량을 방문하여 시승하고, 전문가와 함께 차량 상태를 점검합니다.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Main Content Section 3: In-depth Information and Dwell Time Content -->
+        <section class="content-section">
+            <div class="container">
+                <h2>중고장기렌트 시장 분석: 2026년 트렌드와 전망</h2>
+                <p>
+                    2026년 국내 **장기렌트 시장**은 신차 출고 지연 문제와 경기 침체로 인해 중고장기렌트 부문이 빠르게 성장하고 있습니다. 특히 신차를 선호하던 고객층도 **중고장기렌트**의 합리적인 **비용**과 **즉시 출고**라는 **장점**에 주목하고 있습니다.
+                </p>
+                <img src="https://via.placeholder.com/1000x300/F0F4F8/333?text=중고장기렌트+시장+분석+이미지" alt="중고장기렌트 시장 성장 추이 그래프" style="width:100%; margin: 20px 0; border-radius: 8px;">
+
+                <p>
+                    **중고장기렌트 업체**들은 경쟁적으로 다양한 **할인 혜택**과 **이벤트**를 제공하고 있습니다. 예를 들어, 계약 기간을 48개월 이상으로 설정하거나 보증금을 납부할 경우 추가적인 **할인**을 받을 수 있습니다. 이는 **저렴한** 월 **금액**으로 차량을 이용하고자 하는 소비자들에게 큰 메리트입니다.
+                </p>
+                
+                <h3>중고장기렌트카 가입 시 '내돈내산' 후기 활용법</h3>
+                <p>
+                    광고성 **후기**가 아닌 실제 **내돈내산** 사용자들의 **후기**를 참고하는 것이 중요합니다. 특히 차량 상태 점검, 정비 서비스, 계약 과정의 투명성 등 **업체**의 신뢰도를 판단하는 데 큰 도움이 됩니다. A **업체**의 **후기**를 통해 차량 상태에 대한 솔직한 평가를 확인하고, **비교**를 통해 최적의 **가입** 조건을 선택해야 합니다.
+                </p>
+
+                <h3>중고장기렌트카 인기 모델별 상세 분석 (2026년)</h3>
+                <p>
+                    2026년에는 특히 준대형 세단과 SUV의 수요가 높습니다. 제네시스 G80, 쏘렌토, 팰리세이드, K8과 같은 차량은 신차 **가격**이 높아 중고장기렌트로 접근할 경우 **비용** 절감 효과가 극대화됩니다. 경차로는 기아 레이, 현대 캐스퍼가 인기를 얻고 있습니다.
+                    *   <strong>경차/소형차:</strong> 현대 캐스퍼, 기아 레이, 현대 베뉴. 사회 초년생 또는 세컨카로 **추천**되는 모델이며, **월 금액**이 가장 **저렴한곳**을 찾을 수 있습니다.
+                    *   <strong>준중형/중형 세단:</strong> 현대 아반떼, 기아 K5, 현대 쏘나타, 기아 K8. 가장 활발하게 거래되는 세그먼트로, 다양한 연식과 옵션의 차량을 **비교**할 수 있습니다.
+                    *   <strong>SUV:</strong> 기아 쏘렌토, 현대 팰리세이드, 기아 스포티지, 제네시스 GV70, GV80. 캠핑, 레저 활동 인기에 힘입어 수요가 급증하고 있습니다. 특히 쏘렌토 하이브리드 모델은 신차 출고 대기가 길어 중고장기렌트가 유리합니다.
+                </p>
+
+                <p>
+                    **중고장기렌트**의 **장단점**을 명확히 이해하고, **전문 업체**의 **견적**을 **비교**하여 **저렴한곳**을 찾는다면 합리적인 선택이 될 수 있습니다.
+                </p>
+
+                <h3>함께 많이 찾는 키워드 (연관 검색어 기반)</h3>
+                <ul class="keyword-list">
+                    <li>#중고차장기렌트카</li>
+                    <li>#장기렌트가격비교</li>
+                    <li>#중고장기렌트순위</li>
+                    <li>#중고장기렌트견적</li>
+                    <li>#중고장기렌트싼곳</li>
+                    <li>#중고장기렌트후기</li>
+                    <li>#중고장기렌트장단점</li>
+                    <li>#장기렌트조건</li>
+                    <li>#즉시출고렌트카</li>
+                    <li>#장기렌트차이점</li>
+                    <li>#개인사업자장기렌트</li>
+                </ul>
+
+                <h3 style="margin-top: 60px;">중고장기렌트 업체 선택 시 신뢰성 확보 방법</h3>
+                <p>
+                    **중고장기렌트 업체**가 많아지면서 **저렴한 금액**만 강조하는 곳도 늘고 있습니다. 신뢰성 있는 **전문 업체**를 선택하기 위해서는 다음과 같은 점을 확인해야 합니다.
+                </p>
+                <ul>
+                    <li><strong>1. 투명한 정보 제공:</strong> 렌트할 차량의 연식, 주행거리, 정비 이력을 숨김없이 공개하는지 확인합니다.</li>
+                    <li><strong>2. 정비 서비스 품질:</strong> **중고차**는 신차보다 정비 관리가 중요합니다. 자체 정비소를 보유하거나 제휴 정비망이 잘 구축되어 있는지 확인합니다.</li>
+                    <li><strong>3. 계약서 내용 상세 확인:</strong> 중도 해지 수수료, 사고 발생 시 처리 방법 등 불리한 조항은 없는지 꼼꼼하게 검토합니다.</li>
+                </ul>
+                <p>
+                    **중고장기렌트**의 인기가 높아지면서, 다양한 **업체**들이 경쟁적으로 **할인 혜택**과 **이벤트**를 제공하고 있습니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- Main Content Section 4: External Links & Authority Content -->
+        <section class="content-section" style="background-color: #fcfcfc;">
+            <div class="container">
+                <h2>더 알아보기: 중고장기렌트 관련 외부 신뢰 정보</h2>
+                <p>
+                    **중고장기렌트** 계약은 큰 **금액**이 오가는 만큼, 공신력 있는 기관의 정보를 참고하여 결정하는 것이 좋습니다. 아래는 **중고차** 및 **장기렌트** 관련 유용한 정보를 제공하는 외부 사이트입니다.
+                </p>
+                <ul>
+                    <li><a href="https://namu.wiki/w/%EC%9E%A5%EA%B8%B0%EB%A0%8C%ED%8A%B8" target="_blank" rel="noopener noreferrer"><strong>나무위키: 장기렌터카</strong></a> - 장기렌터카의 개념, 장단점, 주의사항 등 상세 정보 제공.</li>
+                    <li><a href="https://www.car.go.kr/index.jsp" target="_blank" rel="noopener noreferrer"><strong>자동차민원 대국민 포털 (국토교통부)</strong></a> - 차량 등록원부 조회, 압류/저당 확인 등 차량 정보 확인 가능.</li>
+                    <li><a href="https://www.kidi.or.kr/" target="_blank" rel="noopener noreferrer"><strong>보험개발원 (KIDI)</strong></a> - 차량 사고이력 조회 서비스(카히스토리)를 통해 사고 유무 확인.</li>
+                    <li><a href="https://www.kcar.com/" target="_blank" rel="noopener noreferrer"><strong>K Car (케이카)</strong></a> - 중고차 시장 시세 및 딜러 정보 참고.</li>
+                    <li><a href="https://www.consumer.go.kr/user/cn/main/index.do" target="_blank" rel="noopener noreferrer"><strong>한국소비자원</strong></a> - 자동차 구매/이용 관련 소비자 상담 및 피해 구제 정보.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="content-section faq-section" id="faq">
+            <div class="container">
+                <h2>자주 묻는 질문 (FAQ)</h2>
+                <div class="faq-item">
+                    <h3 id="q1">중고장기렌트의 월 예상 금액은 얼마인가요?</h3>
+                    <p>월 렌트료는 차량 모델, 연식, 주행거리, 계약 기간, 정비 옵션에 따라 크게 달라집니다. 경차(캐스퍼, 레이)의 경우 20~30만원대, 중형차(K5, 쏘나타)의 경우 30~50만원대, 고급 SUV/세단(G80, 쏘렌토)의 경우 50~80만원대까지 다양합니다. 정확한 **견적**은 상담을 통해 확인하는 것이 가장 좋습니다.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 id="q2">중고장기렌트도 신차처럼 보험료가 포함되나요?</h3>
+                    <p>네, **장기렌트**의 가장 큰 **장점** 중 하나는 보험료와 자동차세가 월 렌트료에 포함되어 있다는 것입니다. 개인 보험 경력이 단절되지 않는다는 **단점**도 있지만, 사고 시 보험료 할증 걱정이 없어 편리합니다. 특히 운전 경력이 짧아 보험료가 비싼 운전자에게 유리한 **혜택**입니다.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 id="q3">중고장기렌트카 가입 시 신용 등급 심사가 있나요?</h3>
+                    <p>네, 있습니다. **장기렌트 업체**는 계약자의 월 납입금을 안정적으로 수령하기 위해 신용 등급 심사를 진행합니다. 신용 등급이 낮을 경우 심사 통과가 어렵거나 보증금 납부를 요구받을 수 있습니다. 하지만 **저렴한** 월 **금액**으로 심사 기준이 신차보다 낮은 경우가 많으니, 여러 **업체**를 **비교**해 보는 것이 좋습니다.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 id="q4">중고장기렌트 계약 시 인수와 반납 중 어느 것이 유리한가요?</h3>
+                    <p>계약 시점에 차량의 잔존가치가 정해집니다. 계약 만기 시점의 차량 상태를 보고 인수 금액과 중고차 시세를 **비교**하여 결정할 수 있습니다. 일반적으로 인수 비용이 시장 **가격**보다 낮다면 인수하는 것이 **장점**이며, 시장 **가격**보다 높다면 반납하는 것이 **장점**입니다. 본인의 운행 거리를 고려하여 선택해야 합니다.</p>
+                </div>
+            </div>
+        </section>
     </main>
-  </body>
-</html>
+
+    <!-- JavaScript for FAQ toggle function -->
+    <script>
+        document.querySelectorAll('.faq-item h3').forEach(item => {
+            item.addEventListener('click', event => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+            });
+        });
+    </script>
+
+  
